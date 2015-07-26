@@ -18,18 +18,18 @@ object Main extends App {
 
   import system.dispatcher
 
-  val shard = ClusterSharding(system).start(
-    typeName = ClusterNode.shardName,
-    entityProps = Props[ClusterNode],
-    settings = ClusterShardingSettings(system),
-    extractEntityId = ClusterNode.entityId,
-    extractShardId = ClusterNode.shardId
-  )
-
   system.log.info("We started!")
 
   system.scheduler.scheduleOnce(config.getDuration("startup.message.delay", SECONDS).seconds) {
     system.log.info("Sending sample messages to (persistent) sharded cluster actors")
+
+    val shard = ClusterSharding(system).start(
+      typeName = ClusterNode.shardName,
+      entityProps = Props(new ClusterNode),
+      settings = ClusterShardingSettings(system),
+      extractEntityId = ClusterNode.entityId,
+      extractShardId = ClusterNode.shardId
+    )
 
     shard ! ClusterNode.Message("one", "event-one")
     shard ! ClusterNode.Message("two", "event-two")

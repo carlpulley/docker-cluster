@@ -8,6 +8,7 @@ import akka.persistence.PersistentActor
 import scala.concurrent.duration._
 
 object ClusterNode {
+
   case class Message(id: String, event: String)
 
   val shardName = "docker-cluster-node"
@@ -21,19 +22,20 @@ object ClusterNode {
     case Message(id, event) =>
       s"${id.hashCode() % 10}"
   }
+
 }
 
 class ClusterNode extends PersistentActor with ActorLogging {
 
   import ClusterNode._
 
+  log.info("Persistent actor started!")
+
   context.setReceiveTimeout(context.system.settings.config.getDuration("akka.persistence.passivate", SECONDS).seconds)
 
   override def persistenceId = "docker-cluster"
 
-  log.info("Persistent actor started!")
-
-  def receiveRecover = Actor.emptyBehavior
+  def receiveRecover: Receive = Actor.emptyBehavior
 
   def receiveCommand: Receive = LoggingReceive {
     case ReceiveTimeout ⇒
