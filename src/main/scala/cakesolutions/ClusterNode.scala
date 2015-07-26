@@ -1,0 +1,5 @@
+package cakesolutions
+
+class ClusterNode {
+
+}
