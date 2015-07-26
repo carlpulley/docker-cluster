@@ -16,6 +16,10 @@ libraryDependencies ++= Seq(
   akka.actor,
   akka.cluster,
   akka.contrib,
+  akka.persistence.core,
+  akka.persistence.leveldb.core,
+  akka.persistence.leveldb.jni,
+  akka.sharding,
   akka.slf4j,
   // Miscellaneous
   logback,

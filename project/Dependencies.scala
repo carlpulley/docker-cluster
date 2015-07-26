@@ -1,5 +1,4 @@
 import sbt._
-import sbt.Keys._
 
 object Dependencies {
 
@@ -8,12 +7,27 @@ object Dependencies {
   object akka {
     val version = "2.4-M2"
 
-    val actor                 = "com.typesafe.akka"   %% "akka-actor"                    % version
-    val cluster               = "com.typesafe.akka"   %% "akka-cluster"                  % version
-    val contrib               = "com.typesafe.akka"   %% "akka-contrib"                  % version intransitive()
-    val remote                = "com.typesafe.akka"   %% "akka-remote"                   % version
-    val slf4j                 = "com.typesafe.akka"   %% "akka-slf4j"                    % version
-    val testkit               = "com.typesafe.akka"   %% "akka-testkit"                  % version
+    val actor        = "com.typesafe.akka"         %% "akka-actor"                    % version
+    val cluster      = "com.typesafe.akka"         %% "akka-cluster"                  % version
+    val contrib      = "com.typesafe.akka"         %% "akka-contrib"                  % version
+    val remote       = "com.typesafe.akka"         %% "akka-remote"                   % version
+    val sharding     = "com.typesafe.akka"         %% "akka-cluster-sharding"         % version
+    val slf4j        = "com.typesafe.akka"         %% "akka-slf4j"                    % version
+    val testkit      = "com.typesafe.akka"         %% "akka-testkit"                  % version
+
+    object persistence {
+      val core       = "com.typesafe.akka"         %% "akka-persistence-experimental" % version
+
+      object leveldb {
+        val core     = "org.iq80.leveldb"          % "leveldb"                        % "0.7"
+        val jni      = "org.fusesource.leveldbjni" % "leveldbjni-all"                 % "1.8"
+      }
+
+      object cassandra {
+        val core     = "com.github.krasserm"       %% "akka-persistence-cassandra"    % "0.3.4"
+        val driver   = "com.datastax.cassandra"    % "cassandra-driver-core"          % "2.1.7.1"
+      }
+    }
   }
 
   object scalaz {
