@@ -47,6 +47,7 @@ class ClusterNode extends PersistentActor with ActorLogging {
       context.stop(self)
 
     case msg: Message =>
+      log.info(s"Received message $msg - attempting to persist this message")
       persist(msg) { event =>
         log.info(s"Received and persisted message $event")
       }

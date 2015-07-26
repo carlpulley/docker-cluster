@@ -1,4 +1,4 @@
-node0: &node
+node0:
   build: ./target/docker/stage
   environment:
     APP_PORT: 2551
@@ -9,10 +9,11 @@ node0: &node
   net: "host"
 
 node1:
-  <<: *node
+  build: ./target/docker/stage
   environment:
     APP_PORT: 2552
     BIND_APP_PORT: 2552
     SEED_NODES: 127.0.0.1:2551
   ports:
     - "2552:2552"
+  net: "host"
