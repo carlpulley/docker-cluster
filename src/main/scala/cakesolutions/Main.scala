@@ -2,6 +2,7 @@ package cakesolutions
 
 import akka.actor.{Props, ActorSystem}
 import akka.cluster.sharding.{ClusterShardingSettings, ClusterSharding}
+import akka.persistence.journal.leveldb.{SharedLeveldbStore, SharedLeveldbJournal}
 import com.typesafe.config.ConfigFactory
 import scala.concurrent.duration._
 
@@ -17,6 +18,9 @@ object Main extends App {
   implicit val system = ActorSystem("DockerCluster", ConfigFactory.parseString(s"akka.cluster.seed-nodes=$seedNodes").withFallback(config))
 
   import system.dispatcher
+
+  val store = system.actorOf(Props[SharedLeveldbStore], "store")
+  SharedLeveldbJournal.setStore(store, system)
 
   system.log.info("We started!")
 
