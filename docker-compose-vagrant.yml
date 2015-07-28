@@ -7,6 +7,9 @@ node0: &node
     SEED_NODES: 192.168.42.41:2551
   ports:
     - "2551:2552"
+  volumes:
+    - ./target/shared-journal:/opt/docker/target/shared-journal
+    - ./target/shared-snapshots:/opt/docker/target/shared-snapshots
 
 node1:
   <<: *node
@@ -17,5 +20,8 @@ node1:
     SEED_NODES: 192.168.42.41:2551
   ports:
     - "2552:2552"
+  volumes:
+    - ./target/shared-journal:/opt/docker/target/shared-journal
+    - ./target/shared-snapshots:/opt/docker/target/shared-snapshots
   links:
     - node0
