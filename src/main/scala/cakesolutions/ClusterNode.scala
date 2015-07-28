@@ -1,6 +1,6 @@
 package cakesolutions
 
-import akka.actor.{ReceiveTimeout, ActorLogging, Actor}
+import akka.actor.{ReceiveTimeout, ActorLogging}
 import akka.cluster.sharding.ShardRegion
 import akka.cluster.sharding.ShardRegion.Passivate
 import akka.event.LoggingReceive
@@ -27,15 +27,15 @@ object ClusterNode {
 
 class ClusterNode extends PersistentActor with ActorLogging {
 
-  import ClusterNode._
-
   log.info("Persistent actor started!")
 
   context.setReceiveTimeout(context.system.settings.config.getDuration("akka.persistence.passivate", SECONDS).seconds)
 
   override def persistenceId = "docker-cluster"
 
-  def receiveRecover: Receive = Actor.emptyBehavior
+  def receiveRecover: Receive = LoggingReceive {
+    case _ =>
+  }
 
   def receiveCommand: Receive = LoggingReceive {
     case ReceiveTimeout ⇒
@@ -46,7 +46,7 @@ class ClusterNode extends PersistentActor with ActorLogging {
       log.debug("Stopping until an actor recovery is triggered")
       context.stop(self)
 
-    case msg: Message =>
+    case msg =>
       log.info(s"Received message $msg - attempting to persist this message")
       persist(msg) { event =>
         log.info(s"Received and persisted message $event")
