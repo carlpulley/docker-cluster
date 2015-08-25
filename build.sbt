@@ -35,7 +35,7 @@ mainClass in Compile := Some("cakesolutions.Main")
 
 maintainer in Docker := "Carl Pulley <carlp@cakesolutions.net>"
 
-dockerBaseImage := "java:8"
+dockerBaseImage := "java:openjdk-8-jre"
 
 bashScriptConfigLocation := Some("${app_home}/../resources/application.conf")
 

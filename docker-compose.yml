@@ -1,0 +1,13 @@
+node:
+  name: {{ env "APP_NAME" }}
+  log_driver: "json-file"
+  domainname: cakesolutions.net
+  environment:
+    APP_ADDR: {{ env "APP_ADDR" }}
+    APP_PORT: {{ env "APP_PORT" }}
+    BIND_APP_PORT: 2552
+    SEED_NODES: "{{ with tree "services" | explode }}{{ .docker.swarm.nodes }}{{ end }}"
+  ports:
+    - "{{ env "APP_PORT" }}:2552"
+  links:
+    - node
