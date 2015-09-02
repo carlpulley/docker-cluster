@@ -1,9 +1,0 @@
-<%= node.name.tr('-', '').tr('_', '') %>:
-  build: /vagrant/target/docker/stage
-  environment:
-    APP_ADDR: <%= node.address %>
-    APP_PORT: <%= node.port %>
-    BIND_APP_PORT: 2552
-    SEED_NODES: <%= seed_nodes %>
-  ports:
-    - "<%= node.port %>:2552"
