@@ -26,9 +26,9 @@ libraryDependencies ++= Seq(
   scalaz.core,
   typesafe,
   // Testing
-  scalatest     % "test",
-  scalacheck    % "test",
-  akka.testkit  % "test"
+  scalatest    % "test",
+  scalacheck   % "test",
+  akka.testkit % "test"
 )
 
 mainClass in Compile := Some("cakesolutions.Main")
@@ -39,4 +39,8 @@ dockerBaseImage := "java:openjdk-8-jre"
 
 bashScriptConfigLocation := Some("${app_home}/../resources/application.conf")
 
+bashScriptExtraDefines += s"""[ -f ../scripts/${name.value}.bash ] && bash ../scripts/${name.value}.bash"""
+
 mappings in Universal ++= directory("src/main/resources")
+
+mappings in Universal ++= directory(s"src/scripts")
