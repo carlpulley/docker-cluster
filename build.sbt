@@ -39,8 +39,8 @@ dockerBaseImage := "java:openjdk-8-jre"
 
 bashScriptConfigLocation := Some("${app_home}/../resources/application.conf")
 
-bashScriptExtraDefines += s"""[ -f ../scripts/${name.value} ] && bash ../scripts/${name.value}"""
+bashScriptExtraDefines += s"""[ -f ../scripts/env.bash ] && bash ../scripts/env.bash"""
 
 mappings in Universal ++= directory("src/main/resources")
 
-mappings in Universal ++= Seq(file(s"src/scripts/env.bash") -> s"scripts/${name.value}")
+mappings in Universal ++= directory("src/scripts")
