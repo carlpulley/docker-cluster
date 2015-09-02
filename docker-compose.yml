@@ -2,7 +2,7 @@ node:
   log_driver: "json-file"
   domainname: cakesolutions.net
   environment:
-    SEED_NODES: "${SEED_NODES}" # From consul
+    APP_ADDR: ??? # From consul
   ports:
     - "2552"
   volumes:

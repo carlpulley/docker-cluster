@@ -1,3 +1,4 @@
+import com.typesafe.sbt.packager.docker.ExecCmd
 import sbt._
 import Keys._
 import Dependencies._
@@ -33,14 +34,22 @@ libraryDependencies ++= Seq(
 
 mainClass in Compile := Some("cakesolutions.Main")
 
+// Dockerfile setup
+
 maintainer in Docker := "Carl Pulley <carlp@cakesolutions.net>"
 
 dockerBaseImage := "java:openjdk-8-jre"
 
-bashScriptConfigLocation := Some("${app_home}/../resources/application.conf")
-
-bashScriptExtraDefines += """[ -f ${app_home}/../scripts/env.bash ] && bash ${app_home}/../scripts/env.bash"""
+dockerCommands ++= Seq(
+  ExecCmd("RUN", "apt-get", "update", "&&", "apt-get", "install", "-y", "curl", "jq")
+)
 
 mappings in Universal ++= directory("src/main/resources")
 
-mappings in Universal ++= directory("src/scripts")
+mappings in Universal ++= directory("src/docker/shims")
+
+// Bash boot script setup
+
+bashScriptConfigLocation := Some("${app_home}/../resources/application.conf")
+
+bashScriptExtraDefines += """[ -f ${app_home}/../docker/shims/environment.sh ] && bash ${app_home}/../docker/shims/environment.sh"""
